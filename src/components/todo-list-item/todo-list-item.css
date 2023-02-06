@@ -1,0 +1,20 @@
+.todo-list__item {
+    display: flex;
+}
+
+.todo-list__label {
+    display: block;
+}
+
+.todo-list__button-group {
+    margin-left: auto;
+}
+
+.todo-list__btn {
+    width: 35px;
+    margin-right: 8px;
+}
+
+.todo-list__btn:last-child {
+    margin-right: 0;
+}

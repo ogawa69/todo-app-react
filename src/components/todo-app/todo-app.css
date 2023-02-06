@@ -1,0 +1,11 @@
+.container {
+    min-width: 250px;
+    max-width: 500px;
+    padding: 1.1em;
+}
+
+.search-panel {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}

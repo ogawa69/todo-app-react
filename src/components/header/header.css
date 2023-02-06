@@ -1,0 +1,9 @@
+.app-header {
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+.app-header__info {
+    margin-left: auto;
+    color: gray;
+}
