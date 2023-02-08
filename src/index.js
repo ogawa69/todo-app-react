@@ -1,6 +1,6 @@
 import React from "react";
 import {createRoot} from 'react-dom/client'
-import App from "./comp/todo-app";
+import App from "./components/todo-app";
 
 const container = document.getElementById('root')
 
