@@ -1,9 +1,14 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import './new-task-form.css'
 
 export default class NewTaskForm extends Component {
     state = {
         label: ''
+    }
+
+    static propTypes = {
+        addItem: PropTypes.func.isRequired
     }
 
     labelChange = (e) => {
@@ -14,10 +19,12 @@ export default class NewTaskForm extends Component {
 
     submitForm = (e) => {
         e.preventDefault()
-        this.props.addItem(this.state.label)
-        this.setState({
-            label: ''
-        }) 
+        if (this.state.label.length) {
+            this.props.addItem(this.state.label)
+            this.setState({
+                label: ''
+            }) 
+        }
     }
 
     render() {

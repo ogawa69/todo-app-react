@@ -9,16 +9,13 @@ export default class TodoApp extends Component {
     maxId = 0
 
     state = {
-        todoData: [
-            this.createTodoItem("Seeping green tea"),
-            this.createTodoItem("Learn React"),
-            this.createTodoItem("Create React App")
-        ]
+        todoData: []
     }
 
     createTodoItem(label) {
         return {
             label,
+            time: new Date(),
             done: false,
             class: 'active',
             hidden: false,
@@ -80,6 +77,16 @@ export default class TodoApp extends Component {
         });
     }
 
+    editLabel = (id, newLabel) => {
+        this.setState(({todoData}) => {
+            const updatedCopy = todoData.map((el) => el.id === id ? {...el, label: newLabel} : el)
+                
+            return {
+                todoData: updatedCopy
+            }
+        })
+    }
+
     filterTodo = (label) => {
         this.setState(({todoData}) => {
             if (label === 'All') {
@@ -124,7 +131,7 @@ export default class TodoApp extends Component {
         const {todoData} = this.state
         const doneItems = todoData.filter((el) => el.done)
         const countItems = doneItems.length
-        
+
         return (
             <section className="todoapp">
                 <header className="header">
@@ -132,8 +139,8 @@ export default class TodoApp extends Component {
                     <NewTaskForm addItem={this.addItem}/>
                 </header>
                 <section className="main">
-                    <TaskList todoData={todoData} toogleDone={this.toogleDone} deleteItem={this.deleteItem} />
-                    <Footer todoData={todoData} countItems={countItems} clearDone={() => this.clearDone(doneItems)} filterTodo={this.filterTodo} />
+                    <TaskList todoData={todoData} toogleDone={this.toogleDone} deleteItem={this.deleteItem} editLabel={this.editLabel} addItem={this.addItem} />
+                    <Footer countItems={countItems} clearDone={() => this.clearDone(doneItems)} filterTodo={this.filterTodo} />
                 </section>
             </section>
         )

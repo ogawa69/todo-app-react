@@ -1,14 +1,25 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import TaskFilter from "../tasks-filter/task-filter";
 import './footer.css'
 
 export default class Footer extends Component {
     state = {
         filters: [
-            {label: 'All', class: '', id: 1, selected: false},
-            {label: 'Active', class: 'active', id: 2, selected: false},
-            {label: 'Completed', class: 'completed', id: 3, selected: false}
+            {label: 'All', id: 1, selected: true},
+            {label: 'Active', id: 2, selected: false},
+            {label: 'Completed', id: 3, selected: false}
         ]
+    }
+
+    static defaultProps = {
+        countItems: 0,
+        clearDone: () => {}
+    }
+
+    static propTypes = {
+        countItems: PropTypes.number,
+        clearDone: PropTypes.func
     }
 
     toggleSelected = (id) => {
@@ -30,11 +41,11 @@ export default class Footer extends Component {
     }
 
     render() {
-        const {countItems, todoData, clearDone} = this.props
+        const {countItems, clearDone} = this.props
 
-        const elements = this.state.filters.map(({id, label}) => {
+        const elements = this.state.filters.map(({id, label, selected}) => {
             return (
-                <TaskFilter key={id} label={label} changeFilter={() => this.changeFilter(id, label)} />
+                <TaskFilter key={id} label={label} selected={selected} changeFilter={() => this.changeFilter(id, label)} />
             )
         })
 
