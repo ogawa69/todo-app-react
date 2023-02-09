@@ -17,6 +17,7 @@ export default class Task extends React.Component {
 
   static propTypes = {
     label: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     done: PropTypes.bool,
     hidden: PropTypes.bool
   }
@@ -45,8 +46,9 @@ export default class Task extends React.Component {
 
   editTask = (e) => {
     e.preventDefault()
+
     if (this.state.label.length) {
-      this.props.addItem(this.state.label)
+      this.props.editLabel(this.props.id, this.state.label)
       this.setState(({label, editing}) => { 
         return {
           label: label,

@@ -139,7 +139,7 @@ export default class TodoApp extends Component {
                     <NewTaskForm addItem={this.addItem}/>
                 </header>
                 <section className="main">
-                    <TaskList todoData={todoData} toogleDone={this.toogleDone} deleteItem={this.deleteItem} editLabel={this.editLabel} addItem={this.addItem} />
+                    <TaskList todoData={todoData} toogleDone={this.toogleDone} deleteItem={this.deleteItem} editLabel={this.editLabel} />
                     <Footer countItems={countItems} clearDone={() => this.clearDone(doneItems)} filterTodo={this.filterTodo} />
                 </section>
             </section>
