@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 import Task from '../task/task'
 import './task-list.css'
@@ -18,7 +19,14 @@ function TaskList({ todoData, deleteItem, toogleDone, editLabel }) {
     )
   })
 
-  return <ul className="todo-list">{elements}</ul>
+  const emptyClassName = classNames('todo-list__empty', { hidden: todoData.length })
+
+  return (
+    <ul className="todo-list">
+      {elements}
+      <li className={emptyClassName}>Todos is empty...</li>
+    </ul>
+  )
 }
 
 TaskList.defaultProps = {

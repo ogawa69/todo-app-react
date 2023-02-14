@@ -28,13 +28,13 @@ export default class Footer extends Component {
 
   toggleSelected = (id) => {
     this.setState(({ filters }) => {
-      const updatedCopy = filters.map((el) => (el.selected ? { ...el, selected: false } : el))
+      const newArray = filters.map((el) => (el.selected ? { ...el, selected: false } : el))
 
-      const idx = updatedCopy.findIndex((el) => el.id === id)
-      const newArray = updatedCopy.map((el, i) => (idx === i ? { ...el, selected: true } : el))
+      const idx = newArray.findIndex((el) => el.id === id)
+      const result = newArray.map((el, i) => (idx === i ? { ...el, selected: true } : el))
 
       return {
-        filters: newArray,
+        filters: result,
       }
     })
   }

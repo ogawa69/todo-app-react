@@ -3,3 +3,17 @@
   padding: 0;
   list-style: none;
 }
+
+.todo-list__empty {
+  height: 100px;
+  padding-top: 40px;
+  text-align: center;
+  font-style: italic;
+  font-family: inherit;
+  font-weight: 300;
+  color: gray;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
