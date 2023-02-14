@@ -15,12 +15,14 @@ export default class TodoApp extends Component {
 
   componentDidMount() {
     const prevData = JSON.parse(localStorage.getItem('todoData'))
-    const result = prevData.map((el) => {
-      return { ...el, time: new Date(el.time) }
-    })
-    this.setState({
-      todoData: result,
-    })
+    if (prevData) {
+      const result = prevData.map((el) => {
+        return { ...el, time: new Date(el.time) }
+      })
+      this.setState({
+        todoData: result,
+      })
+    }
   }
 
   createTodoItem(label) {
