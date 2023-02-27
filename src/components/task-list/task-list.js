@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import Task from '../task/task'
 import './task-list.css'
 
-function TaskList({ todoData, deleteItem, toogleDone, editLabel }) {
+function TaskList({ todoData, deleteItem, toogleDone, editLabel, timerPlay, timerStop }) {
   const elements = todoData.map(({ id, ...item }) => {
     return (
       <Task
@@ -15,6 +15,8 @@ function TaskList({ todoData, deleteItem, toogleDone, editLabel }) {
         toogleDone={() => toogleDone(id)}
         deleteItem={() => deleteItem(id)}
         editLabel={editLabel}
+        timerPlay={() => timerPlay(id)}
+        timerStop={() => timerStop(id)}
       />
     )
   })

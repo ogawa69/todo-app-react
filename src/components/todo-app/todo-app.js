@@ -25,9 +25,15 @@ export default class TodoApp extends Component {
     }
   }
 
-  createTodoItem(label) {
+  componentDidUpdate() {
+    this.addToLocalStorage(this.state.todoData)
+  }
+
+  createTodoItem(label, timer) {
     return {
       label,
+      timerValue: timer,
+      timerOn: false,
       time: new Date(),
       done: false,
       class: 'active',
@@ -41,21 +47,28 @@ export default class TodoApp extends Component {
     localStorage.setItem('todoData', JSON.stringify(data))
   }
 
+  editState = (id, key, value) => {
+    this.setState(({ todoData }) => {
+      const newArray = todoData.map((el) => (el.id === id ? { ...el, [key]: value } : el))
+      return {
+        todoData: newArray,
+      }
+    })
+  }
+
   deleteItem = (id) => {
     this.setState(({ todoData }) => {
       const idx = todoData.findIndex((el) => el.id === id)
       const result = [...todoData.slice(0, idx), ...todoData.slice(idx + 1)]
-      this.addToLocalStorage(result)
       return { todoData: result }
     })
   }
 
-  addItem = (text) => {
-    const newItem = this.createTodoItem(text)
+  addItem = (text, timer) => {
+    const newItem = this.createTodoItem(text, timer)
 
     this.setState(({ todoData }) => {
       let result = [...todoData, newItem]
-      this.addToLocalStorage(result)
       return {
         todoData: result,
       }
@@ -71,7 +84,6 @@ export default class TodoApp extends Component {
 
       const newItem = { ...oldItem, done: !oldItem.done, class: classItem }
       const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]
-      this.addToLocalStorage(newArray)
       return {
         todoData: newArray,
       }
@@ -83,17 +95,10 @@ export default class TodoApp extends Component {
     ids.forEach((element) => {
       this.deleteItem(element)
     })
-    this.addToLocalStorage(this.state)
   }
 
   editLabel = (id, newLabel) => {
-    this.setState(({ todoData }) => {
-      const newArray = todoData.map((el) => (el.id === id ? { ...el, label: newLabel } : el))
-      this.addToLocalStorage(newArray)
-      return {
-        todoData: newArray,
-      }
-    })
+    this.editState(id, 'label', newLabel)
   }
 
   filterTodo = (label) => {
@@ -139,16 +144,74 @@ export default class TodoApp extends Component {
     })
   }
 
+  formatTime = (min, sec) => {
+    const formatMin = min.length > 1 ? min : `0${min.length ? min : 0}`
+    const formatSec = sec.length > 1 ? sec : `0${sec.length ? sec : 0}`
+    return `${formatMin}:${formatSec}`
+  }
+
+  countDown = (time) => {
+    const [strMin, strSec] = time.split(':')
+    const min = Number(strMin)
+    const sec = Number(strSec)
+
+    if ((min || !min) && sec) {
+      return this.formatTime(`${min}`, `${sec - 1}`)
+    }
+    if (min && !sec) {
+      return this.formatTime(`${min - 1}`, '59')
+    }
+    if (!min && !sec) {
+      return false
+    }
+  }
+
+  timer(id) {
+    const timer = setInterval(() => {
+      this.setState(({ todoData }) => {
+        const idx = todoData.findIndex((el) => el.id === id)
+
+        const item = { ...todoData[idx] }
+        if (!item.timerOn) {
+          return clearInterval(timer)
+        }
+        if (item.timerValue !== '00:00') {
+          item.timerValue = this.countDown(String(item.timerValue))
+          const newArr = [...todoData.slice(0, idx), item, ...todoData.slice(idx + 1)]
+          return {
+            todoData: newArr,
+          }
+        }
+      })
+    }, 1000)
+  }
+
+  toggleTimer = (id, value) => {
+    this.editState(id, 'timerOn', value)
+  }
+
+  timerPlay = (id) => {
+    const { todoData } = this.state
+    const idx = todoData.findIndex((el) => el.id === id)
+    if (!todoData[idx].timerOn) {
+      this.toggleTimer(id, true)
+      this.timer(id)
+    }
+  }
+
+  timerStop = (id) => {
+    this.toggleTimer(id, false)
+  }
+
   render() {
     const { todoData } = this.state
     const doneItems = todoData.filter((el) => el.done)
     const countItems = todoData.length - doneItems.length
-
     return (
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
-          <NewTaskForm addItem={this.addItem} />
+          <NewTaskForm addItem={this.addItem} formatTime={this.formatTime} />
         </header>
         <section className="main">
           <TaskList
@@ -156,6 +219,8 @@ export default class TodoApp extends Component {
             toogleDone={this.toogleDone}
             deleteItem={this.deleteItem}
             editLabel={this.editLabel}
+            timerPlay={this.timerPlay}
+            timerStop={this.timerStop}
           />
           <Footer countItems={countItems} clearDone={() => this.clearDone(doneItems)} filterTodo={this.filterTodo} />
         </section>

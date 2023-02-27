@@ -60,18 +60,24 @@ export default class Task extends React.Component {
   }
 
   render() {
-    const { label, done, hidden, toogleDone, deleteItem } = this.props
+    const { label, done, hidden, toogleDone, deleteItem, timerValue, timerPlay, timerStop } = this.props
     const { value, editing } = this.state
 
     const liClassNames = classNames({ completed: done, active: !done }, { hidden: hidden }, { editing: editing })
     const formClassNames = classNames({ hidden: !editing })
+    const timerClassNames = classNames('description', { hidden: timerValue === '00:00' || !timerValue })
 
     return (
       <li className={liClassNames}>
         <div className="view">
           <input className="toggle" type="checkbox" onClick={toogleDone} defaultChecked={done} />
           <label>
-            <span className="description">{label}</span>
+            <span className="title">{label}</span>
+            <span className={timerClassNames}>
+              <button className="icon icon-play" onClick={timerPlay}></button>
+              <button className="icon icon-pause" onClick={timerStop}></button>
+              <span className="timer">{timerValue}</span>
+            </span>
             <span className="created">{'created ' + this.timeToNow() + ' ago'}</span>
           </label>
           <button className="icon icon-edit" onClick={this.onEditForm}></button>
