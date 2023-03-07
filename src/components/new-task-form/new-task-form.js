@@ -1,65 +1,46 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import './new-task-form.css'
 
-export default class NewTaskForm extends Component {
-  state = {
-    label: '',
-    min: '',
-    sec: '',
+const NewTaskForm = ({ formatTime, addItem }) => {
+  const [label, setLabel] = useState('')
+  const [min, setMin] = useState('')
+  const [sec, setSec] = useState('')
+
+  const labelChange = (e) => {
+    setLabel(e.target.value)
   }
 
-  static propTypes = {
-    addItem: PropTypes.func.isRequired,
-  }
-
-  labelChange = (e) => {
-    this.setState({
-      label: e.target.value,
-    })
-  }
-
-  timeChange = (e) => {
+  const timeChange = (e) => {
     if (Number(e.target.value) || e.target.value == '') {
-      const type = e.target.placeholder === 'Min' ? ['min'] : ['sec']
-      this.setState({
-        [type]: e.target.value,
-      })
+      return e.target.placeholder === 'Min' ? setMin(e.target.value) : setSec(e.target.value)
     }
   }
 
-  submitForm = (e) => {
+  const submitForm = (e) => {
     e.preventDefault()
-    const { label, min, sec } = this.state
-    const { addItem } = this.props
 
     if (label.length) {
-      const time = min.length || sec.length ? this.props.formatTime(min, sec) : false
-
+      const time = min.length || sec.length ? formatTime(min, sec) : false
       addItem(label, time)
-      this.setState({
-        label: '',
-        min: '',
-        sec: '',
-      })
+      setLabel('')
+      setMin('')
+      setSec('')
     }
   }
 
-  render() {
-    const { label, min, sec } = this.state
-    return (
-      <form className="new-todo-form" onSubmit={this.submitForm}>
-        <input
-          className="new-todo"
-          value={label}
-          placeholder="What needs to be done?"
-          onChange={this.labelChange}
-          autoFocus
-        />
-        <input className="new-todo-form__timer" placeholder="Min" value={min} onChange={this.timeChange} autoFocus />
-        <input className="new-todo-form__timer" placeholder="Sec" value={sec} onChange={this.timeChange} autoFocus />
-        <button type="submit" />
-      </form>
-    )
-  }
+  return (
+    <form className="new-todo-form" onSubmit={submitForm}>
+      <input className="new-todo" value={label} placeholder="What needs to be done?" onChange={labelChange} autoFocus />
+      <input className="new-todo-form__timer" placeholder="Min" value={min} onChange={timeChange} autoFocus />
+      <input className="new-todo-form__timer" placeholder="Sec" value={sec} onChange={timeChange} autoFocus />
+      <button type="submit" />
+    </form>
+  )
 }
+
+NewTaskForm.propTypes = {
+  addItem: PropTypes.func.isRequired,
+}
+
+export default NewTaskForm

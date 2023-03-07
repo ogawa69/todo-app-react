@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './task-filter.css'
 
-function TaskFilter({ label, selected, changeFilter }) {
+const TaskFilter = ({ label, selected, changeFilter }) => {
   return (
     <li>
       <button className={selected ? 'selected' : ''} onClick={changeFilter}>
