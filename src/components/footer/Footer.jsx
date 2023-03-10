@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+
 import PropTypes from 'prop-types'
 
-import TaskFilter from '../tasks-filter/task-filter'
-import './footer.css'
+import TaskFilter from '../TasksFilter'
+
+import './Footer.css'
 
 const Footer = ({ filterTodo, countItems, clearDone }) => {
   const [filters, setFilters] = useState([

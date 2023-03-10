@@ -1,7 +1,7 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 
-import App from './components/todo-app'
+import App from './components/TodoApp'
 
 const container = document.getElementById('root')
 

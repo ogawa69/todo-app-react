@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+
 import classNames from 'classnames'
+import { v4 as uuidv4 } from 'uuid'
 
-import NewTaskForm from '../new-task-form/new-task-form'
-import TaskList from '../task-list/task-list'
-import Footer from '../footer/footer'
+import Footer from '../Footer'
+import NewTaskForm from '../NewTaskForm'
+import TaskList from '../TaskList'
 
-import './todo-app.css'
+import './TodoApp.css'
 
 const TodoApp = () => {
   const [todoData, setTodoData] = useState([])
@@ -171,7 +172,7 @@ const TodoApp = () => {
   const timerStop = (id) => {
     toggleTimer(id, false)
   }
-
+  console.log(todoData)
   const doneItems = todoData.filter((el) => el.done)
   const countItems = todoData.length - doneItems.length
   return (

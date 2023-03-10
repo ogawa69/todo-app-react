@@ -1,6 +1,8 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import './task-filter.css'
+
+import './TaskFilter.css'
 
 const TaskFilter = ({ label, selected, changeFilter }) => {
   return (

@@ -66,17 +66,28 @@
       }
     ],
     "import/order": [
-      2,
+      "error",
       {
         "groups": [
           "builtin",
           "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
+          "internal"
         ],
-        "newlines-between": "always"
+        "pathGroups": [
+          {
+            "pattern": "{react,react-dom/**}",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [
+          "react"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
     ]
   },

@@ -1,9 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
 
-import Task from '../task/task'
-import './task-list.css'
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+
+import Task from '../Task/Task'
+import './TaskList.css'
 
 function TaskList({ todoData, deleteItem, toogleDone, editLabel, timerPlay, timerStop }) {
   const elements = todoData.map(({ id, ...item }) => {
